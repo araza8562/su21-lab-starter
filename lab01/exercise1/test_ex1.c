@@ -12,9 +12,11 @@ int main(int argc, char **argv) {
     assert(num_l == 3);
 
     int num_z = num_occurrences(str, 'z');
-    assert(num_z == 0);
+    assert(num_z == 0 );
 
     /* TODO: Think of a scenario that is not tested by the current test cases. Create one additional test case to test this scenario. */
+    int num_o = num_occurrences(str, 'o');
+    assert(num_o == 2 );
 
     printf("Congrats! If you have made it to this line, your Part 1 Test cases are all passing!\n");
 
@@ -36,8 +38,14 @@ int main(int argc, char **argv) {
     assert(dna_seq_2.T_count == 0);
 
     /* TODO: Think of a scenario that is not tested by the current test cases. Create one additional test case to test this scenario. */
-
-    printf("Congrats! If you have made it to this line, your Part 2 Test cases are all passing!\n");
+    DNA_sequence dna_seq_3_test;
+    strcpy(dna_seq_3_test.sequence, "GGTTTTCA");
+    compute_nucleotide_occurrences(&dna_seq_3_test);
+    assert(dna_seq_3_test.A_count == 1);
+    assert(dna_seq_3_test.C_count == 1);
+    assert(dna_seq_3_test.G_count == 2);
+    assert(dna_seq_3_test.T_count == 4);
+    printf("Congrats! If you have made it to this line,  your Part 2 Test cases are all passing!\n");
 
     return 0;
 }
