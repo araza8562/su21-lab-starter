@@ -1,3 +1,7 @@
+
+# Author: Ahmed Raza
+# Description: This RISC-V assembly code evaluates a function f at various input values and compares the results with expected outputs. The function f takes an input value and returns a corresponding output from a lookup table. The lookup table is defined in the .data section, and the results are printed along with expected values to verify correctness.
+
 .globl f
 
 .data
@@ -74,11 +78,13 @@ main:
 # f takes in two arguments:
 # a0 is the value we want to evaluate f at
 # a1 is the address of the "output" array (defined above).
-# Think: why might having a1 be useful?
 f:
-    # YOUR CODE GOES HERE!
-
-    jr ra               # Always remember to jr ra after your function!
+    addi a1, a0, 3          # a1 = a0 + 3 (to convert the input to an index for the lookup table)
+    slli a1, a1, 2          # a1 = a1 * 4 (to convert the index to a byte offset)
+    la a2, output           # a2 = address of output
+    add a1, a1, a2          # a1 = a1 + a2 (to get the address of the desired element in the lookup table)
+    lw a0, 0(a1)            # a0 = *a1 (load the value from the lookup table)
+    jr ra                   # return
 
 print_int:
     mv a1, a0

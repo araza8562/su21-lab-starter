@@ -1,3 +1,7 @@
+# Author: Ahmed Raza
+# Description: This RISC-V assembly code provides five versions of the accumulator function, each with different implementations. The accumulator function takes a pointer to an array of nonzero integers terminated with 0 and returns the sum of the elements of the array in register a0. All five versions pass
+
+
 .globl accumulatorone
 .globl accumulatortwo
 .globl accumulatorthree
