@@ -1,9 +1,12 @@
+# Author: Ahmed Raza
+# Description: This program demonstrates the use of a map function to apply different operations (such as squaring and decrementing) to elements in a linked list.
+
 .globl map
 
 .text
 main:
     jal ra, create_default_list
-    add s0, a0, x0 # a0 (and now s0) is the head of node list
+    add s0, a0, x0 # a0 (and now s0) is the head of the node list
 
     # Print the list
     add a0, s0, x0
@@ -15,9 +18,8 @@ main:
     # Load function arguments
     add a0, s0, x0 # Loads the address of the first node into a0
 
-    # Load the address of the "square" function into a1 (hint: check out "la" on the green sheet)
-    ### YOUR CODE HERE ###
-
+    # Load the address of the "square" function into a1
+    la a1, square
 
     # Issue the call to map
     jal ra, map
@@ -28,15 +30,11 @@ main:
     jal ra, print_newline
 
     # === Calling `map(head, &decrement)` ===
-    # Because our `map` function modifies the list in-place, the decrement takes place after
-    # the square does
-
     # Load function arguments
     add a0, s0, x0 # Loads the address of the first node into a0
     
-    # Load the address of the "decrement" function into a1 (should be very similar to before)
-    ### YOUR CODE HERE ###
-
+    # Load the address of the "decrement" function into a1
+    la a1, decrement
 
     # Issue the call to map
     jal ra, map
@@ -50,45 +48,41 @@ main:
     ecall # Terminate the program
 
 map:
-    # Prologue: Make space on the stack and back-up registers
-    ### YOUR CODE HERE ###
-
+    # Prologue: Make space on the stack and back up registers
+    addi sp, sp, -12
+    sw ra, 0(sp)   # Save return address
+    sw s0, 4(sp)   # Save s0 register
+    sw s1, 8(sp)   # Save s1 register
+    
     beq a0, x0, done # If we were given a null pointer (address 0), we're done.
 
     add s0, a0, x0 # Save address of this node in s0
     add s1, a1, x0 # Save address of function in s1
 
-    # Remember that each node is 8 bytes long: 4 for the value followed by 4 for the pointer to next.
-    # What does this tell you about how you access the value and how you access the pointer to next?
-
     # Load the value of the current node into a0
-    # THINK: Why a0?
-    ### YOUR CODE HERE ###
+    lw a0, 0(s0)
 
-    # Call the function in question on that value. DO NOT use a label (be prepared to answer why).
-    # Hint: Where do we keep track of the function to call? Recall the parameters of "map".
-    ### YOUR CODE HERE ###
+    # Call the function in question on that value
+    jalr ra, a1, 0
 
     # Store the returned value back into the node
-    # Where can you assume the returned value is?
-    ### YOUR CODE HERE ###
+    sw a0, 0(s0)
 
     # Load the address of the next node into a0
-    # The address of the next node is an attribute of the current node.
-    # Think about how structs are organized in memory.
-    ### YOUR CODE HERE ###
+    lw a0, 4(s0)
 
     # Put the address of the function back into a1 to prepare for the recursion
-    # THINK: why a1? What about a0?
-    ### YOUR CODE HERE ###
+    mv a1, s1
 
     # Recurse
-    ### YOUR CODE HERE ###
+    jal ra, map
 
 done:
     # Epilogue: Restore register values and free space from the stack
-    ### YOUR CODE HERE ###
-
+    lw ra, 0(sp)   # Restore the return address
+    lw s0, 4(sp)   # Restore s0
+    lw s1, 8(sp)   # Restore s1
+    addi sp, sp, 12   # Free space from the stack
     jr ra # Return to caller
 
 # === Definition of the "square" function ===
@@ -141,7 +135,7 @@ print_me_and_recurse:
     jal x0, print_list  # Recurse. The value of ra hasn't been changed.
 
 print_newline:
-    addi a1, x0, '\n'   # Load in ascii code for newline
+    addi a1, x0, '\n'   # Load in ASCII code for newline
     addi a0, x0, 11
     ecall
     jr ra
@@ -151,3 +145,4 @@ malloc:
     addi a0, x0, 9
     ecall
     jr ra
+

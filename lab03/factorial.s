@@ -21,4 +21,18 @@ main:
     ecall # Exit
 
 factorial:
-    # YOUR CODE HERE
+    # Initialize variables
+    li t2, 1         # Initialize factorial to 1
+
+    # Loop for factorial calculation
+    loop:
+    beqz a0, exit    # If a0 (n) is 0, exit loop
+    mul t2, t2, a0   # Multiply factorial by a0
+    addi a0, a0, -1  # Decrement n
+    j loop           # Jump back to loop
+
+    # Exit loop
+    exit:
+    mv a0, t2        # Move the factorial value to a0 for returning
+    jr ra            # Return to the calling function
+
