@@ -22,6 +22,10 @@ void multMat1( int n, float *A, float *B, float *C ) {
                 C[i+j*n] += A[i+k*n]*B[k+j*n];
 }
 
+//c=0  
+//A=n  
+//B=1  
+
 void multMat2( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* This is ikj loop order. */
@@ -30,6 +34,10 @@ void multMat2( int n, float *A, float *B, float *C ) {
             for( j = 0; j < n; j++ )
                 C[i+j*n] += A[i+k*n]*B[k+j*n];
 }
+
+//c=n  
+//A=0  
+//B=1  
 
 void multMat3( int n, float *A, float *B, float *C ) {
     int i,j,k;
@@ -40,6 +48,10 @@ void multMat3( int n, float *A, float *B, float *C ) {
                 C[i+j*n] += A[i+k*n]*B[k+j*n];
 }
 
+//c=0  
+//A=1  
+//B=n  
+
 void multMat4( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* This is jki loop order. */
@@ -48,6 +60,10 @@ void multMat4( int n, float *A, float *B, float *C ) {
             for( i = 0; i < n; i++ )
                 C[i+j*n] += A[i+k*n]*B[k+j*n];
 }
+
+//c=n  
+//A=1  
+//B=0  
 
 void multMat5( int n, float *A, float *B, float *C ) {
     int i,j,k;
@@ -58,6 +74,10 @@ void multMat5( int n, float *A, float *B, float *C ) {
                 C[i+j*n] += A[i+k*n]*B[k+j*n];
 }
 
+//c=1  
+//A=0  
+//B=n  
+
 void multMat6( int n, float *A, float *B, float *C ) {
     int i,j,k;
     /* This is kji loop order. */
@@ -66,6 +86,10 @@ void multMat6( int n, float *A, float *B, float *C ) {
             for( i = 0; i < n; i++ )
                 C[i+j*n] += A[i+k*n]*B[k+j*n];
 }
+
+//c=1  
+//A=n  
+//B=0  
 
 /* uses timing features from sys/time.h that you haven't seen before */
 int main( int argc, char **argv ) {
